@@ -156,32 +156,59 @@ body {
 
 <script>
   
+<script>
+// Fungsi untuk mengirim data ke Google Sheets
+function sendToGoogleSheets(user) {
+  const url = 'https://script.google.com/macros/s/AKfycbwqHsl3H9c1jrH3bZ_ROemoRZxbItWxOW_gSZjlzpn_pcE1i1fnCi1jaUOFk3ZFyEqZ/exec'; // Ganti dengan URL web app Anda
+  const data = {
+    namaLengkap: user.namaLengkap,
+    email: user.email,
+    username: user.username,
+    kataSandi: user.kataSandi
+  };
+
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    mode: 'no-cors'
+  })
+  .then(response => {
+    console.log('Data berhasil dikirim ke Google Sheets');
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
+}
+
 document.querySelector('.register-btn').addEventListener('click', function() {
-    // Ambil nilai dari formulir
-    const namaLengkap = document.getElementById('fullname').value;
-    const email = document.getElementById('email').value;
-    const username = document.getElementById('username').value;
-    const kataSandi = document.getElementById('password').value;
+  const namaLengkap = document.getElementById('fullname').value;
+  const email = document.getElementById('email').value;
+  const username = document.getElementById('username').value;
+  const kataSandi = document.getElementById('password').value;
 
-    // Validasi input
-    if (!namaLengkap || !email || !username || !kataSandi) {
-        alert('Semua kolom harus diisi!');
-        return;
-    }
+  if (!namaLengkap || !email || !username || !kataSandi) {
+    alert('Semua kolom harus diisi!');
+    return;
+  }
 
-    // Cek apakah username sudah ada
-    let pengguna = JSON.parse(localStorage.getItem('pengguna')) || [];
-    if (pengguna.some(user => user.username === username)) {
-        alert('Username sudah terdaftar! Gunakan username lain.');
-        return;
-    }
+  let pengguna = JSON.parse(localStorage.getItem('pengguna')) || [];
+  if (pengguna.some(user => user.username === username)) {
+    alert('Username sudah terdaftar! Gunakan username lain.');
+    return;
+  }
 
-    // Simpan data pengguna
-    pengguna.push({ namaLengkap, email, username, kataSandi });
-    localStorage.setItem('pengguna', JSON.stringify(pengguna));
+  const user = { namaLengkap, email, username, kataSandi };
+  pengguna.push(user);
+  localStorage.setItem('pengguna', JSON.stringify(pengguna));
 
-    alert('Registrasi berhasil! Silakan login.');
-    window.location.href = 'https://adhaedieswulandari1212.github.io/apalah/';
+  // Kirim data registrasi ke Google Sheets
+  sendToGoogleSheets(user);
+
+  alert('Registrasi berhasil! Silakan login.');
+  window.location.href = 'Login Quran Apps.html';
 });
-
+</script>
 </script>
