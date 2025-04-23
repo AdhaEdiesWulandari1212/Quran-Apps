@@ -160,7 +160,8 @@ body {
 
 // Fungsi untuk mengirim data ke Google Sheets
 function sendToGoogleSheets(user) {
-  const url = 'https://script.google.com/macros/s/AKfycbza0r1HZC-TNIInj3rWIp9Vt3fgPu-xZ40VPdLPe1KdvudBDIesJXpCeJ0qYKhlRisqzw/exec'; // Ganti dengan URL web app Anda
+  console.log('Mengirim data registrasi:', user); // Debugging
+  const url = 'https://script.google.com/macros/s/AKfycbyRuMQLEoqKzK0onSD7zH1OaUwEpg2Hl1vcYkOb9ib46XeWmGwnwxblJR8K1vL6cqEU/exec'; // Ganti dengan URL Web App baru
   const data = {
     namaLengkap: user.namaLengkap,
     email: user.email,
@@ -177,10 +178,10 @@ function sendToGoogleSheets(user) {
     mode: 'no-cors'
   })
   .then(response => {
-    console.log('Data berhasil dikirim ke Google Sheets');
+    console.log('Data registrasi berhasil dikirim ke Google Sheets');
   })
   .catch(error => {
-    console.log('Error:', error);
+    console.log('Error mengirim data registrasi:', error);
   });
 }
 
